@@ -1,0 +1,30 @@
+# Contribute to the P4 Language Organization
+
+Thank you for considering contributing to the P4 Language Organization! Your contributions are valuable and help improve the project for everyone. Before getting started, please take a moment to review the following guidelines.
+
+## Contributing License
+The P4 organizations uses [DCO](https://en.wikipedia.org/wiki/Developer_Certificate_of_Origin) for contributions. Please take a look at our [guidelines](https://github.com/p4lang/governance/wiki/P4-DCO-Guidelines).
+
+To sign off the last commit quickly use the `git commit --amend --signoff` command. The failing check will also include instructions on how to sign off all commits in two steps (using `git rebase HEAD~$NUM_COMMITS --signoff`). The [Developer Community DCO guide](https://github.com/src-d/guide/blob/master/developer-community/fix-DCO.md#dco-is-missing) also provides helpful tips on fixing DCO inconveniences. Setting up a commit hook in the repository will automate adding the DCO signoff.
+
+### Guidelines 
+
+* Code has to be reviewed before it is merged.
+* Make sure all tests pass when you send a pull request.
+* Participate in the code review process and address any feedback or comments.
+
+### Finding a Task
+- Check out the issues that have specifically been [marked as being friendly to new contributors](https://github.com/search?q=org%3Ap4lang+is%3Aopen+is%3Aissue+label%3Agood-first-issue&type=issues&query=org%3Ap4lang+is%3Aopen+is%3Aissue+label%3Aood-first-issue)
+- Have a look at this README. Can it be improved? Do you see typos? You can open a PR.
+
+## Reporting Issues
+If you encounter any issues or have suggestions for improvement, please open an issue with a clear description and, if possible, steps to reproduce.
+
+## Feature Requests
+We welcome feature requests! Please open an issue and provide as much detail as possible about the requested feature and its use case.
+
+Happy coding!
+
+<!--! 
+\include{doc} "../docs/CodingStandardPhilosophy.md" 
+-->
