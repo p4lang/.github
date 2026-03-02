@@ -1,0 +1,9 @@
+name: DCO Assistant for First-Time Contributors
+
+on:
+  check_run:
+    types: [completed]
+
+jobs:
+  dco-help:
+    uses: p4lang/.github/.github/workflows/dco-welcome-reusable.yml@main
