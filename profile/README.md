@@ -5,7 +5,8 @@ Welcome to the official GitHub organization for the P4 Language Consortium. This
 Our ecosystem provides the tools needed to develop, compile, test, and control P4 programs. 
 ## Major Repositories
 
-### Compilers and Toolchains
+### Language, Compilers and Toolchains
+*   **[p4-spec](https://github.com/p4lang/p4-spec)**: The official specification documents for the P4 language and its core architectures.
 *   **[p4c](https://github.com/p4lang/p4c)**: The official reference compiler for the P4_16 programming language.
 *   **[p4mlir-incubator](https://github.com/p4lang/p4mlir-incubator)**: An experimental project to integrate the MLIR compiler framework into P4C.
 *   **[p4-constraints](https://github.com/p4lang/p4-constraints)**: A framework for defining and enforcing constraints on P4 objects at runtime.
@@ -20,9 +21,9 @@ Our ecosystem provides the tools needed to develop, compile, test, and control P
 *   **[PI](https://github.com/p4lang/PI)**: An implementation framework for a P4Runtime server that acts as a bridge between the control plane and the data plane.
 *   **[ptf](https://github.com/p4lang/ptf)**: The Packet Test Framework, a Python-based framework designed for data plane validation.
 
-### Specifications and Governance
-*   **[p4-spec](https://github.com/p4lang/p4-spec)**: The official specification documents for the P4 language and its core architectures.
+### Governance
 *   **[.github](https://github.com/p4lang/.github)**: Organization-wide policy, governance documents, and issue templates.
+*   **[governance](https://github.com/p4lang/governance)**: Legal documents of the P4 Language Organization.
 
 ### Education and Community
 *   **[tutorials](https://github.com/p4lang/tutorials)**: Practical exercises, virtual machine environments, and tutorials for learning the P4 language.
