@@ -1,5 +1,5 @@
 # P4 Project Policy: AI Tool Use in Contributions
-The P4 Project permits the use of AI tools to assist with writing code and documentation. [Our approach follows the Linux Foundation’s Generative AI Guidance](https://www.linuxfoundation.org/legal/generative-ai) and adds organization-specific requirements.
+The P4 Project permits the use of AI tools to assist with writing code and documentation. Our approach follows the [Linux Foundation’s Generative AI Guidance](https://www.linuxfoundation.org/legal/generative-ai) and adds organization-specific requirements.
 
 **Contributors remain fully accountable for their submissions** and are always the authors of their work. Review should be requested only when the contributor is confident the contribution is high quality and understands the code well enough to explain it.**In all cases, a human must remain in the loop.**
 
@@ -22,7 +22,7 @@ Using AI tools does not remove copyright or change licensing obligations. You mu
 Non-compliant contributions may be reverted or removed, just like any other licensing or copyright violation.
 
 # Examples:
-- 
+-  This [PR](https://github.com/p4lang/gsoc/pull/98) demonstrates how humans stay in the loop when using agents or automation.
 -
 
 # References:
