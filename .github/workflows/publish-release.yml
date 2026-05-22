@@ -1,0 +1,56 @@
+# Reusable workflow for publish a release. Usually triggered by changes to the
+# VERSION file.
+name: Publish Release
+
+on:
+  workflow_call:
+    inputs:
+      version_file:
+        description: "Path to the version file (e.g. VERSION or Version.txt)"
+        required: false
+        default: "VERSION"
+        type: string
+      tag_prefix:
+        description: "Prefix for the git tag (e.g. 'v' for v1.2.3, or '' for 1.2.3)"
+        required: false
+        default: "v"
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Get version
+        run: |
+          VERSION="$(cat '${{ inputs.version_file }}')"
+          TAG="${{ inputs.tag_prefix }}${VERSION}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          TAG="${{ env.TAG }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping release creation."
+            echo "tag_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag $TAG does not exist."
+            echo "tag_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Release
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ env.TAG }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

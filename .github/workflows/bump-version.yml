@@ -1,0 +1,134 @@
+# Reusable workflow for bumping the version number in a new PR.
+name: Bump version number
+
+on:
+  workflow_call:
+    inputs:
+      version_file:
+        description: "Path to the version file (e.g. VERSION or Version.txt)"
+        required: false
+        default: "VERSION"
+        type: string
+      tag_prefix:
+        description: "Prefix for the git tag (e.g. 'v' for v1.2.3, or '' for 1.2.3)"
+        required: false
+        default: "v"
+        type: string
+      reviewers:
+        description: "Comma-separated list of PR reviewers"
+        required: true
+        type: string
+      branch_pattern:
+        description: "PR branch pattern. Use {version} as placeholder (e.g. 'v{version}' or 'release/{version}')"
+        required: false
+        default: "v{version}"
+        type: string
+
+jobs:
+  check new commits:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    outputs:
+      has_commits: ${{ steps.check_commits.outputs.has_commits }}
+    steps:
+      - name: Check for new commits since latest tag
+        id: check_commits
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO="${{ github.repository }}"
+          TAG="$(gh api "repos/${REPO}/tags" --jq '.[0].name' 2>/dev/null || echo '')"
+          if [ -z "$TAG" ]; then
+            echo "No tags found, proceeding with release."
+            echo "has_commits=true" >> $GITHUB_OUTPUT
+          else
+            AHEAD="$(gh api "repos/${REPO}/compare/${TAG}...main" --jq '.ahead_by')"
+            if [ "$AHEAD" -eq 0 ]; then
+              echo "No new commits since $TAG, skipping release."
+              echo "has_commits=false" >> $GITHUB_OUTPUT
+            else
+              echo "$AHEAD new commits since $TAG."
+              echo "has_commits=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+  create pull request:
+    needs: check
+    if: needs.check.outputs.has_commits == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Increment version number
+        run: perl -i -pe 's/\b(\d+)(?=\D*$)/$1+1/e' '${{ inputs.version_file }}'
+
+      - name: Get changelog
+        id: changelog
+        run: |
+          TAG="$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)"
+          GIT_LOG="$(git log $TAG..HEAD --oneline --pretty=format:"- %s [%an]")"
+          CHANGELOG=$(cat << EOF
+          Changelog:
+          $GIT_LOG
+          EOF
+          )
+          CHANGELOG="${CHANGELOG//'#'/''}"
+          echo "content<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$CHANGELOG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Display changelog
+        run: |
+          cat <<'EOF'
+          ${{ steps.changelog.outputs.content }}
+          EOF
+
+      - name: Get version
+        run: |
+          VERSION="$(cat '${{ inputs.version_file }}')"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Compute branch name
+        run: |
+          BRANCH="${{ inputs.branch_pattern }}"
+          BRANCH="${BRANCH//\{version\}/${{ env.VERSION }}}"
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+
+      # Creating as 'draft' so a maintainer can trigger CI easily.
+      # See https://github.com/peter-evans/create-pull-request/blob/main/docs/concepts-guidelines.md#triggering-further-workflow-runs
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          base: main
+          add-paths: ${{ inputs.version_file }}
+          reviewers: ${{ inputs.reviewers }}
+          commit-message: |
+            Release ${{ inputs.tag_prefix }}${{ env.VERSION }}
+
+            ${{ steps.changelog.outputs.content }}
+          signoff: true
+          branch: ${{ env.BRANCH }}
+          delete-branch: true
+          title: "Automated Release ${{ inputs.tag_prefix }}${{ env.VERSION }}"
+          body: |
+            Auto-generated pull request creating version ${{ env.VERSION }}.
+
+            ${{ steps.changelog.outputs.content }}
+          draft: always-true
+
+      - name: Add maintainer instructions
+        if: steps.create_pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo -e "Maintainers: Mark this PR as *ready* to trigger CI.\n\nPlease use **Squash and merge** to include the changelog in the release message." | \
+          gh pr comment "${{ steps.create_pr.outputs.pull-request-number }}" \
+            --repo "${{ github.repository }}" \
+            --body-file -
