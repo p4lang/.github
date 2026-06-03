@@ -31,6 +31,16 @@ Did you use AI tools to write the file?  If yes, you should find
 documentation for that AI tool that describes what your choices are
 regarding the legal entity that is the copyright holder of that file.
 
+Important aside: This might not be as easy as it sounds.  It is an
+active area of legal consideration who the copyright holder of such
+AI-generated files are.  In some countries (e.g. the USA), if no
+person contributes significantly to the content of a file, it _cannot_
+have a copyright holder at all, should likely be considered part of
+the public domain, and thus cannot have a license associated with it
+(because there is _no_ copyright holder who can assert their copyright
+rights to choose what restrictions or permissions hold for what others
+can do with it).
+
 Did someone else write the file's contents, and you copied all or most
 of it, e.g. from some other project's code?  In that case, hopefully
 there are one or more copyright notices in the file already.  You
@@ -72,6 +82,12 @@ licenses into different files, and then apply the guidelines in this
 document to each of those separate files.  If you still have
 questions, ask in a Github issue on an appropriate p4lang project
 before submitting the code.
+
+Note: Except for the suggestion of using "The P4 Language Consortium"
+as the copyright holder for files you write on your own personal time,
+all of the above in this section applies to _every_ software you work
+on and project that you add files to, not only to files added to
+projects in the p4lang Github organization.
 
 
 # Determining the copyright year
