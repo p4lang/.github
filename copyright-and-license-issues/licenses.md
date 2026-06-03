@@ -35,6 +35,9 @@ tools: adding an SPDX-License-Identifier comment line [1].
 
 [1] https://spdx.org/licenses/
 
+<!--
+REUSE-IgnoreStart
+-->
 These look like the following examples, where the syntax of everything
 _except_ the comment indicator is required by SPDX, i.e. there is a
 precise specified syntax for ethe "SPDX-License-Identifier:"
@@ -48,6 +51,9 @@ follow it on the line.
 ```python
 # SPDX-License-Identifier: GPL-2.0-only
 ```
+<!--
+REUSE-IgnoreEnd
+-->
 
 
 # Why is the top level LICENSE file insufficient?
