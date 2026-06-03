@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 The P4 Language Consortium
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # P4 Language Consortium
 
 Welcome to the official GitHub organization for the P4 Language Consortium. This organization hosts the open-source ecosystem for P4, a domain-specific language used to specify how data plane devices process packets. 
