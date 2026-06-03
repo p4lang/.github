@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 The P4 Language Consortium
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Contribute to the P4 Language Organization
 
 Thank you for considering contributing to the P4 Language Organization! Your contributions are valuable and help improve the project for everyone. Before getting started, please take a moment to review the following guidelines.
