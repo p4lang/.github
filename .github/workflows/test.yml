@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 The P4 Language Consortium
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  verify-licenses:
+    runs-on: ubuntu-latest
+    name: Validate that all files have copyright and license info
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install dev dependencies
+        run: |
+          ./CI/install-uv.sh
+      - name: Validate presence of copyright and license info (python w/reuse)
+        run: |
+          uvx reuse lint
