@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# Reusable workflow for bumping the version number in a new PR.
-name: Bump version number
+# Reusable workflow for the monthly release process: bumps the version number
+# in a new PR.
+name: Monthly Release
 
 on:
   workflow_call:
@@ -29,7 +30,7 @@ on:
         type: string
 
 jobs:
-  check new commits:
+  check-new-commits:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     outputs:
@@ -56,9 +57,9 @@ jobs:
             fi
           fi
 
-  create pull request:
-    needs: check
-    if: needs.check.outputs.has_commits == 'true'
+  create-pull-request:
+    needs: check-new-commits
+    if: needs.check-new-commits.outputs.has_commits == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
