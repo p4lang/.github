@@ -23,7 +23,6 @@ Non-compliant contributions may be reverted or removed, just like any other lice
 
 # Examples:
 -  This [PR](https://github.com/p4lang/gsoc/pull/98) demonstrates how humans stay in the loop when using agents or automation.
--
 
 # References:
 - LLVM AI Tool Use Policy: https://llvm.org/docs/AIToolPolicy.html
