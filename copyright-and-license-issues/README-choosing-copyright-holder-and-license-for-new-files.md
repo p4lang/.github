@@ -145,6 +145,17 @@ GPL-2.0-only, primarily for one of the following reasons:
 + It is a source file intended to be executed within the Linux kernel,
   e.g. C source code intended to be part of an EBPF program.
 
+For header files intended to be included from an EBPF program, e.g. a
+short list of files in the `p4c` repository, the following license
+should be used.  See
+[ebpf-program-licenses.md](ebpf-program-licenses.md) for details.
+
+<!-- REUSE-IgnoreStart -->
+```
+SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+```
+<!-- REUSE-IgnoreEnd -->
+
 
 ## Exceptions to using Apache-2.0 - BSD, MIT, and FSFAP licenses
 

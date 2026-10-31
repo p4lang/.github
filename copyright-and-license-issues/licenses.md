@@ -129,62 +129,8 @@ that we expect companies will want to add proprietary extensions to.
 
 ## C files intended to be compiled and executed in the Linux kernel, e.g. EBPF
 
-Note: When analyzing the source files described in this section more
-carefully, we will take special care to ensure that they are not files
-used to build a P4 compiler executable, and update this note when that
-task is complete with our findings.
-
-One or more published p4c back ends produce C source files that are
-intended to be compiled and loaded into the kernel via the EBPF
-feature, at least [3], [4] and perhaps others.
-
-[3] https://github.com/p4lang/p4c/blob/main/backends/ebpf/README.md
-
-[4] https://github.com/p4lang/p4c/blob/main/backends/tc/README.md
-
-While there are a few examples of companies releasing binaries of
-Linux driver code for their hardware and not releasing the source
-code, we leave it to their legal teams to navigate any of the
-intricacies that may be involved in that endeavor.
-
-Reference [5] is a good introduction to software licensing questions
-related to using EBPF.
-
-[5] https://ebpf.io/blog/ebpf-licensing-guide/
-
-While it is _possible_ to write restricted EBPF programs that are
-loaded into the Linux kernel that can be distributed under a non-GPL
-license, these are the exception, not the rule.
-
-Do companies using EBPF distribute these programs under GPL 2.0?  Yes,
-they commonly do.  The EBPF code loaded and run in the Linux kernel is
-the "data plane" part of the system.  The "control plane" part of the
-system runs in user space applications on Linux, and these can be
-distributed under other licenses, including proprietary licenses.  98%
-or more of the code of these systems is in the control plane code.
-The data plane code by itself is unlikely to cause any significant
-loss of competitive advantage to publicize it.
-
-Thus our plan is to release all of the following kinds of source files
-under the GPL v2.0 license, the same as the Linux kernel:
-
-+ files that are intended to be compiled and loaded into the kernel
-  via EBPF.
-+ header files included from files described in the previous item
-
-Note that this list of files appears to consist of _only_ 2 source
-files in the entire p4c repository.  Most of the source files related
-to EBPF are part of a p4c back end that uses EBPF, which can be
-Apache-2.0 licensed, or they are control plane source files used for
-testing the EBPF programs loaded into the kernel.
-
-If any subtle questions arise as to whether a particular P4 compiler
-back end, e.g. `p4c-ebpf`, must thus be released under GPL v2.0, we
-will raise these questions to the P4 Technical Steering Team for their
-advice.
-
-We expect that for P4 compiler back ends that do not produce source
-code for use with EBPF, this question will never arise.
+See the separate article
+[ebpf-program-licenses.md](ebpf-program-licenses.md).
 
 
 # Third party libraries used by p4c
