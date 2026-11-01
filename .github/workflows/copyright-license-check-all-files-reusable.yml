@@ -34,4 +34,4 @@ jobs:
       # Step 4: Do the copyright/license annotation check
       - name: Validate presence of copyright and license info (python w/reuse)
         run: |
-          uvx reuse lint
+          .github-shared-files/CI/reuse-lint-all-files.sh
