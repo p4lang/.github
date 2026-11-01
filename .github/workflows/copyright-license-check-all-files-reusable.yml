@@ -1,0 +1,37 @@
+name: Check copyright and license annotations on all files
+
+on:
+  # Make this a reusable workflow as described in
+  # https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows
+  # Note: It will only be reused in those selected p4lang repositories
+  # that have finished the job of passing the REUSE lint check.
+  workflow_call:
+
+jobs:
+  verify-licenses:
+    runs-on: ubuntu-latest
+    name: Validate that all files have copyright and license info
+    steps:
+      # Step 1: Check out the calling repository's source code
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      # Step 2: Checkout the p4lang/.github repository into a subfolder .github-shared-files
+      - name: Checkout Central Configs
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ job.workflow_repository }}
+          ref: ${{ job.workflow_sha }}
+          path: .github-shared-files
+
+      # Step 3: Install uv and REUSE, using script from p4lang/.github
+      - name: Install uv and REUSE
+        run: |
+          bash .github-shared-files/CI/install-uv.sh
+          uv venv --seed
+          uv pip install reuse
+
+      # Step 4: Do the copyright/license annotation check
+      - name: Validate presence of copyright and license info (python w/reuse)
+        run: |
+          uvx reuse lint
