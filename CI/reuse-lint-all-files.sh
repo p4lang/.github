@@ -4,12 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-THIS_SCRIPT_FILE_MAYBE_RELATIVE="$0"
-THIS_SCRIPT_DIR_MAYBE_RELATIVE="${THIS_SCRIPT_FILE_MAYBE_RELATIVE%/*}"
-THIS_SCRIPT_DIR_ABSOLUTE=`readlink -f "${THIS_SCRIPT_DIR_MAYBE_RELATIVE}"`
-
-GITHUB_BASE_REF="$1"
-
 uvx reuse lint
 ec=$?
 if [ $ec -ne 0 ]; then
