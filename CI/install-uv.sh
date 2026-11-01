@@ -8,8 +8,6 @@ if command -v uv >/dev/null 2>&1; then
     exit 0
 fi
 
-mkdir -p "${UV_INSTALL_DIR}"
-
 if command -v curl >/dev/null 2>&1; then
     curl -LsSf https://astral.sh/uv/install.sh | bash
 elif command -v wget >/dev/null 2>&1; then
