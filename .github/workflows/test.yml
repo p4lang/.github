@@ -14,4 +14,4 @@ on:
 
 jobs:
   verify-licenses:
-    uses: p4lang/.github/.github/workflows/copyright-license-check-all-files-reusable.yml@main
+    uses: ./.github/.github/workflows/copyright-license-check-all-files-reusable.yml
