@@ -14,4 +14,4 @@ on:
 
 jobs:
   verify-licenses:
-    uses: ./.github/.github/workflows/copyright-license-check-all-files-reusable.yml
+    uses: ./.github/workflows/copyright-license-check-all-files-reusable.yml
