@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 The P4 Language Consortium
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: Cache retention
+description: Keep the newest main and open-PR caches and prune excess PR storage.
+inputs:
+  token:
+    description: Token with actions write and pull-requests read permissions in the calling repository.
+    default: ${{ github.token }}
+  key-prefixes:
+    description: Whitespace-separated cache key prefixes to manage.
+    default: |
+      bazel-v2-
+      ccache-v2-
+  pr-budget:
+    description: Maximum combined size of retained PR caches, in bytes.
+    default: "2000000000"
+  total-budget:
+    description: Repository cache storage target in bytes, including unmanaged caches.
+    default: "9000000000"
+  default-branch:
+    description: Branch whose caches use the main key scope and must be retained.
+    default: ${{ github.event.repository.default_branch || 'main' }}
+  dry-run:
+    description: Set to true to list selected caches without deleting them.
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - name: Prune caches
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        CACHE_ACTION_PATH: ${{ github.action_path }}
+        CACHE_PREFIXES: ${{ inputs.key-prefixes }}
+        CACHE_PR_BUDGET: ${{ inputs.pr-budget }}
+        CACHE_TOTAL_BUDGET: ${{ inputs.total-budget }}
+        CACHE_DEFAULT_BRANCH: ${{ inputs.default-branch }}
+        CACHE_DRY_RUN: ${{ inputs.dry-run }}
+      run: |
+        args=()
+        case "$CACHE_DRY_RUN" in
+          true) ;;
+          false) args+=(--apply) ;;
+          *) echo "dry-run must be true or false" >&2; exit 1 ;;
+        esac
+        python3 "$CACHE_ACTION_PATH/cache_retention.py" \
+          --key-prefixes "$CACHE_PREFIXES" \
+          --pr-budget "$CACHE_PR_BUDGET" \
+          --total-budget "$CACHE_TOTAL_BUDGET" \
+          --default-branch "$CACHE_DEFAULT_BRANCH" \
+          "${args[@]}"
