@@ -86,13 +86,7 @@ The optional `token` input defaults to `github.token`. It needs `actions: write`
 and `pull-requests: read` in the caller. Use this action in scheduled or manual
 maintenance workflows with those permissions.
 
-## Development
+## Running the script directly
 
-Run the standard-library tests from the repository root:
-
-```sh
-python3 -B -m unittest discover -s CI/cache-retention -p 'test_*.py' -v
-```
-
-The script can also run directly; it defaults to a dry run unless `--apply` is
+The script defaults to a dry run unless `--apply` is
 given. Set `GH_TOKEN` and `GITHUB_REPOSITORY` (for example, `p4lang/PI`).

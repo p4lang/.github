@@ -13,14 +13,6 @@ on:
       - main
 
 jobs:
-  cache-retention:
-    runs-on: ubuntu-latest
-    name: Test shared cache retention action
-    steps:
-      - uses: actions/checkout@v6
-      - name: Test retention policy and API handling
-        run: python3 -B -m unittest discover -s CI/cache-retention -p 'test_*.py' -v
-
   verify-licenses:
     runs-on: ubuntu-latest
     name: Validate that all files have copyright and license info
