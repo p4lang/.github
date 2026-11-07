@@ -1,7 +1,7 @@
 <!--
 SPDX-FileCopyrightText: 2026 The P4 Language Consortium
 
-SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: CC-BY-4.0
 -->
 
 # Compatibility of BSD and Apache 2.0 licenses
