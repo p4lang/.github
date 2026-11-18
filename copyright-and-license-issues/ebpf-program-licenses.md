@@ -232,11 +232,11 @@ The `.c` file contains this line:
 char _license[] SEC("license") = "GPL";
 ```
 
-That line compiles into a part of the binary file.  When you attempt
-to load this binary EBPF file into the kernel using a system call, if
-the EBPF program makes any calls to GPL-only functions within the
-kernel, the system call will fail the attempt to load it into the
-kernel.
+That line compiles into a part of the binary file.  If you attempt to
+load an EBPF binary file into the kernel using a system call _without_
+this GPL license marker in it, the system call will fail because of an
+incompatible license (if the EBPF program makes any calls to GPL-only
+functions within the kernel).
 
 Below are the header files included by this generated program:
 
@@ -274,8 +274,8 @@ repository are:
 
 ## Example of output of `p4c-pna-p4tc`
 
-The following assumes that you have installed the `p4c-ebpf` program
-on your system.
+The following assumes that you have installed the `p4c-pna-p4tc`
+program on your system.
 
 ```
 $ git clone https://github.com/p4lang/p4c
@@ -285,8 +285,8 @@ $ p4c-pna-p4tc global_action_example_01.p4 -o tmp
 ```
 
 Two of the output files written to the directory `tmp` have the same
-GPL license line that `p4c-ebpf` uses, because those programs are
-intended to be compiled and loaded into the Linux kernel.
+GPL license line that `p4c-ebpf` output files have, because those
+programs are intended to be compiled and loaded into the Linux kernel.
 
 ```
 $ cd tmp
@@ -313,8 +313,9 @@ https://github.com/p4lang/p4c
 Here are where all of the included files come from, including nested
 includes:
 
-+ `global_action_example_01_control_block.c` (generated) includes:
-+ `global_action_example_01_parser.c` (generated) includes:
++ `global_action_example_01_control_block.c` (generated) and
+  `global_action_example_01_parser.c` (generated) both include only
+  one file:
   + `global_action_example_01_parser.h` (generated) includes:
     + `ebpf_kernel.h` - see previous section for details of what it includes
     + `<stdbool.h>` - part of Linux `/usr/include` files, not `p4c`
